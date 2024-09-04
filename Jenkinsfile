@@ -3,7 +3,7 @@ pipeline {
     environment {
         GITHUB_REPO = "git@github.com:ConnectAndSell/CAS-Infrastructure.git"
         WORKSPACE = "${env.WORKSPACE}"
-        PYTHON_PATH = "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python312\\python.exe"
+        // PYTHON_PATH = "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python312\\python.exe"
     }
     stages {
         stage('Git checkout') {
@@ -15,13 +15,13 @@ pipeline {
                 )
             }
         }
-        stage('Set GCP Project') {
-            steps {
-                script {
-                    bat "gcloud config set project cas-prod-env"
-                }
-            }
-        }
+        // stage('Set GCP Project') {
+        //     steps {
+        //         script {
+        //             bat "gcloud config set project cas-prod-env"
+        //         }
+        //     }
+        // }
         stage('SonarQube Code Analysis') {
             steps {
                 dir("${WORKSPACE}"){
