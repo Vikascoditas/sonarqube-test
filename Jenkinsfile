@@ -11,7 +11,7 @@ pipeline {
         stage('Run Tests with Coverage') {
             steps {
                 // Run pytest with coverage and generate an XML report
-                sh 'pytest --cov=common --cov=dbconfig --cov=self_jobs --cov-report=xml'
+                sh 'pytest --cov=common --cov=dbConfig --cov=self_jobs --cov-report=xml'
             }
         }
 
