@@ -11,7 +11,7 @@ pipeline {
                 script {
                     def scannerHome = tool name: 'sonarqube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
                     withSonarQubeEnv('sonarqube') {
-                        sh "${scannerHome}/bin/sonar-scanner \
+                        sh "${scannerHome}/bin/sonarqube \
                             -D sonar.projectVersion=1.0-SNAPSHOT \
                             -D sonar.qualityProfile=qp-1 \
                             -D sonar.projectBaseDir=/var/lib/jenkins/workspace/Snyk-Testing/snyk-code-container-scan/appcode \
