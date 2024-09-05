@@ -35,6 +35,20 @@ pipeline {
             }
         }
 
+        stage('Install Python Dependencies') {
+            steps {
+                dir("${WORKSPACE}") {
+                    script {
+                        // Ensure pip is up-to-date
+                        sh 'python3 -m pip install --upgrade pip'
+                        
+                        // Install dependencies from requirements.txt
+                        sh 'pip3 install -r requirements.txt'
+                    }
+                }
+            }
+        }
+
         stage('Run Python Script') {
             steps {
                 dir("${WORKSPACE}") {

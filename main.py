@@ -1,62 +1,31 @@
-pipeline {
-    agent any
+from flask import Flask, jsonify, request
 
-    stages {
-        stage('SonarQube Code Analysis') {
-            steps {
-                dir("${WORKSPACE}") {
-                    script {
-                        def scannerHome = tool name: 'sonarqube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-                        withSonarQubeEnv('sonarqube') {
-                            sh """
-                                ${scannerHome}/bin/sonar-scanner \
-                                -Dsonar.projectKey=cas-prod-env \
-                                -Dsonar.sources=. \
-                                -Dsonar.host.url=https://sonarqube-dev.connectandsell.com \
-                                -Dsonar.token=squ_e67e26dd043974e7a23f2da0f5490fbfc8cc9bf2
-                            """
-                        }
-                    }
-                }
-            }
-        }
+app = Flask(__name__)
 
-        stage('SonarQube Quality Gate Check') {
-            steps {
-                script {
-                    // Wait for the quality gate status to be available
-                    def qualityGate = waitForQualityGate()
-                    
-                    // Check the quality gate status and fail the build if not 'OK'
-                    if (qualityGate.status != 'OK') {
-                        error "Quality Gate failed: ${qualityGate.status}"
-                    }
-                }
-            }
-        }
+# Home route
+@app.route('/')
+def home():
+    return "Welcome to the Flask app!"
 
-        stage('Install Python Dependencies') {
-            steps {
-                dir("${WORKSPACE}") {
-                    script {
-                        // Ensure pip is up-to-date
-                        sh 'python3 -m pip install --upgrade pip'
-                        
-                        // Install dependencies from requirements.txt
-                        sh 'pip3 install -r requirements.txt'
-                    }
-                }
-            }
-        }
+# Example route that returns a JSON response
+@app.route('/api/hello', methods=['GET'])
+def hello_world():
+    return jsonify(message="Hello, World!")
 
-        stage('Run Python Script') {
-            steps {
-                dir("${WORKSPACE}") {
-                    script {
-                        sh 'python3 main.py'
-                    }
-                }
-            }
-        }
-    }
-}
+# Example route with a dynamic parameter
+@app.route('/api/greet/<name>', methods=['GET'])
+def greet(name):
+    return jsonify(message=f"Hello, {name}!")
+
+# Example route that accepts POST requests
+@app.route('/api/data', methods=['POST'])
+def receive_data():
+    data = request.json
+    return jsonify(received=data)
+
+if __name__ == '__main__':
+    app.run(debug=False)
+
+
+
+# print("hello vikas")
