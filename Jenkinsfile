@@ -1,11 +1,10 @@
 pipeline {
     agent any
-
-    tools {
-        // Use the name defined in Global Tool Configuration
-        sonarScanner 'sonar-scanner'
+    environment {
+    SCANNER_HOME = tool 'SonarQubeScanner'
     }
 
+    
     stages {
         stage('SonarQube Code Analysis') {
             steps {
@@ -16,7 +15,7 @@ pipeline {
                     // Run SonarQube Scanner
                     withSonarQubeEnv('sonar-scanner') { // Ensure 'sonarqube' matches the name in SonarQube Servers configuration
                         sh """
-                            ${scannerHome}/bin/sonar-scanner \
+                            ${SCANNER_HOME}/bin/sonar-scanner \
                             -Dsonar.projectKey=cas-prod-env \
                             -Dsonar.sources=. \
                             -Dsonar.host.url=https://sonarqube-dev.connectandsell.com \
