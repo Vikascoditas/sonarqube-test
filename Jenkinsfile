@@ -42,15 +42,5 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            // Actions to always execute, e.g., clean up
-        }
-        success {
-            // Actions on successful pipeline execution
-        }
-        failure {
-            // Actions on pipeline failure
-        }
-    }
+    
 }
