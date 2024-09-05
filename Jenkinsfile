@@ -13,7 +13,7 @@ pipeline {
                                 -Dsonar.projectKey=cas-prod-env \
                                 -Dsonar.sources=. \
                                 -Dsonar.host.url=https://sonarqube-dev.connectandsell.com \
-                                -Dsonar.login=squ_e67e26dd043974e7a23f2da0f5490fbfc8cc9bf2
+                                -Dsonar.token=squ_e67e26dd043974e7a23f2da0f5490fbfc8cc9bf2
                             """
                         }
                     }
@@ -30,6 +30,16 @@ pipeline {
                     // Check the quality gate status and fail the build if not 'OK'
                     if (qualityGate.status != 'OK') {
                         error "Quality Gate failed: ${qualityGate.status}"
+                    }
+                }
+            }
+        }
+
+        stage('Run Python Script') {
+            steps {
+                dir("${WORKSPACE}") {
+                    script {
+                        sh 'python3 main.py'
                     }
                 }
             }
