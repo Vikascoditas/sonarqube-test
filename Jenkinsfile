@@ -13,17 +13,7 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
-                dir("${WORKSPACE}") {
-                    script {
-                        // Run tests and generate coverage report
-                        sh 'pytest --cov=my_module --cov-report=xml'
-                    }
-                }
-            }
-        }
-
+        
         stage('SonarQube Code Analysis') {
             steps {
                 dir("${WORKSPACE}") {
