@@ -18,7 +18,7 @@ pipeline {
                 dir("${WORKSPACE}") {
                     script {
                         // Run tests and generate coverage report
-                        sh 'pytest --cov=my_module --cov-report=xml'
+                        sh 'pytest --cov=common --cov=dbconfig --cov=self_jobs --cov-report=xml'
                     }
                 }
             }
