@@ -1,0 +1,130 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "CoachGPT API",
+    "description": "API for analyzing the calls, creating summary and then chat/email sessions."
+  },
+  "host": "127.0.0.1:5000",
+  "basePath": "/",
+  "schemes": ["http"],
+  "paths": {
+    "/v1/conversations/summary": {
+      "post": {
+        "summary": "Analyzes sales calls",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "week_start_date": {
+                  "type": "string",
+                  "format": "date",
+                  "example": "2023-11-09"
+                },
+                "week_end_date": {
+                  "type": "string",
+                  "format": "date",
+                  "example": "2023-11-16"
+                },
+                "user_id": {
+                  "type": "number",
+                  "example": 1001
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Initial analysis of sales calls",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "initial_analysis": {
+                  "type": "object",
+                  "properties": {
+                    "successful_calls": {
+                      "type": "string",
+                      "example": "105"
+                    },
+                    "summary": {
+                      "type": "string",
+                      "example": "<strong>Team Behaviour:</strong><br><br>\nIn the week of 2023-11-09 to 2023-11-16, a total of <strong>105 successful follow-up meeting setups</strong> were achieved by the sales representatives. The best performer in this regard was <strong>Patrick Smith</strong>, consistently demonstrating quick engagement, clear communication of value propositions, and adaptability to prospect responses."
+                    },
+                    "unsuccessful_calls": {
+                      "type": "string",
+                      "example": "1899"
+                    },
+                    "total_calls": {
+                      "type": "string",
+                      "example": "2004"
+                    }
+                  }
+                },
+                "session_id": {
+                  "type": "string",
+                  "example": "348fc5f1-64ee-439d-afb0-782aa0cf1601"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/conversations/query": {
+      "post": {
+        "summary": "Retrieve detailed information about sales calls asked by the user",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "query": {
+                  "type": "string",
+                  "example": "Tell me more about the calls of John Jackson?"
+                },
+                "user_id": {
+                  "type": "string",
+                  "example": "a7b692b7-0b23-443f-96a4-5bbc1e2adf26"
+                },
+                "session_id": {
+                  "type": "string",
+                  "example": "4357dc5c-1ab5-4f38-a576-6387de2e64df"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detailed information about sales calls",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "response": {
+                  "type": "string",
+                  "example": "John Jackson had a total of 18 calls over two days, with 3 resulting in successful follow-up meeting setups..."
+                },
+                "session_id": {
+                  "type": "string",
+                  "example": "4357dc5c-1ab5-4f38-a576-6387de2e64df"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
