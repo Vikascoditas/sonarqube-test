@@ -13,7 +13,7 @@ pipeline {
                                 -Dsonar.projectKey=cas-prod-env \
                                 -Dsonar.sources=. \
                                 -Dsonar.host.url=https://sonarqube-dev.connectandsell.com \
-                                -Dsonar.login=${env.SONARQUBE_TOKEN}
+                                -Dsonar.login=squ_e67e26dd043974e7a23f2da0f5490fbfc8cc9bf2
                             """
                         }
                     }
