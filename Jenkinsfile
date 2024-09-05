@@ -1,10 +1,10 @@
 pipeline {
     agent any
 
-    // tools {
-    //     // Define SonarQube Scanner tool if it's configured in Jenkins' global tool configuration
-    //     sonarScanner 'sonar-scanner' // The name provided in Global Tool Configuration
-    // }
+    tools {
+        // Use the name defined in Global Tool Configuration
+        sonarScanner 'sonar-scanner'
+    }
 
     stages {
         stage('SonarQube Code Analysis') {
@@ -14,7 +14,7 @@ pipeline {
                     def scannerHome = tool name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
 
                     // Run SonarQube Scanner
-                    withSonarQubeEnv('sonarqube') { // Ensure 'sonarqube' is the name used in SonarQube Servers configuration
+                    withSonarQubeEnv('sonar-scanner') { // Ensure 'sonarqube' matches the name in SonarQube Servers configuration
                         sh """
                             ${scannerHome}/bin/sonar-scanner \
                             -Dsonar.projectKey=cas-prod-env \
@@ -33,7 +33,7 @@ pipeline {
                     // Wait for the quality gate status to be available
                     def qualityGate = waitForQualityGate()
                     
-                    // Check the quality gate status and fail the build if the status is not 'OK'
+                    // Check the quality gate status and fail the build if not 'OK'
                     if (qualityGate.status != 'OK') {
                         error "Quality Gate failed: ${qualityGate.status}"
                     }
@@ -42,5 +42,15 @@ pipeline {
         }
     }
 
-   
+    post {
+        always {
+            // Actions to always execute, e.g., clean up
+        }
+        success {
+            // Actions on successful pipeline execution
+        }
+        failure {
+            // Actions on pipeline failure
+        }
+    }
 }
