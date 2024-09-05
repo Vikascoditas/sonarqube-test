@@ -1,10 +1,10 @@
 pipeline {
     agent any
 
-    tools {
-        // Define SonarQube Scanner tool if it's configured in Jenkins' global tool configuration
-        sonarScanner 'sonar-scanner' // The name provided in Global Tool Configuration
-    }
+    // tools {
+    //     // Define SonarQube Scanner tool if it's configured in Jenkins' global tool configuration
+    //     sonarScanner 'sonar-scanner' // The name provided in Global Tool Configuration
+    // }
 
     stages {
         stage('SonarQube Code Analysis') {
