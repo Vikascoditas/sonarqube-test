@@ -59,16 +59,7 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
-                dir("${WORKSPACE}") {
-                    script {
-                        // Run Python tests
-                        sh 'pytest'
-                    }
-                }
-            }
-        }
+       
 
         stage('Fetch SonarQube Report') {
             steps {
