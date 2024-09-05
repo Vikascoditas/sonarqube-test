@@ -5,7 +5,7 @@ pipeline {
         stage('SonarQube Code Analysis') {
             steps {
                 script {
-                    def scannerHome = tool name: 'sonarqube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+                    def scannerHome = tool name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
                     withSonarQubeEnv('sonarqube') {  
                         sh "${scannerHome}/bin/sonar-scanner \
                             -Dsonar.projectKey=cas-prod-env \
